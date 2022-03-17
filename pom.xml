@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ai.earable.platform</groupId>
+    <artifactId>be-parent</artifactId>
+    <version>3.0</version>
+    <name>be-parent</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <version.jdk>11</version.jdk>
+
+        <version.quarkus>2.7.4.Final</version.quarkus>
+        <version.jackson>2.13.2</version.jackson>
+        <version.smallrye.reactive>1.4.0</version.smallrye.reactive>
+        <version.smallrye.vertx>2.19.0</version.smallrye.vertx>
+
+        <version.maven.plugin>3.8.1</version.maven.plugin>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Dependencies about quarkus reactive http server-->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-core</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.reactive</groupId>
+                <artifactId>mutiny-reactor</artifactId>
+                <version>${version.smallrye.reactive}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-config-yaml</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive-common</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-smallrye-opentracing</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-vertx</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-smallrye-metrics</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-reactive-routes</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+
+            <!-- For testing -->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-junit5</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-junit5-mockito</artifactId>
+                <version>${version.quarkus}</version>
+            </dependency>
+
+            <!-- For smallrye -->
+            <dependency>
+                <groupId>io.smallrye.reactive</groupId>
+                <artifactId>smallrye-mutiny-vertx-web-client</artifactId>
+                <version>${version.smallrye.vertx}</version>
+            </dependency>
+
+
+            <!-- For jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${version.jackson}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${version.jackson}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.22</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jboss.jandex</groupId>
+                    <artifactId>jandex-maven-plugin</artifactId>
+                    <version>1.1.1</version>
+                    <executions>
+                        <execution>
+                            <id>make-index</id>
+                            <goals>
+                                <goal>jandex</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.maven.plugin}</version>
+                    <configuration>
+                        <source>${version.jdk}</source>
+                        <target>${version.jdk}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven</groupId>
+                    <artifactId>maven-plugin-api</artifactId>
+                    <version>${version.maven.plugin}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-maven-plugin</artifactId>
+                    <version>${version.quarkus}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
