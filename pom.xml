@@ -28,6 +28,9 @@
         <version.jandex>1.1.1</version.jandex>
         <version.maven.plugin>3.8.1</version.maven.plugin>
         <version.surefile.plugin>3.0.0-M5</version.surefile.plugin>
+
+        <version.quarkus.cassandra>1.1.2</version.quarkus.cassandra>
+        <version.cassandra.datastax>4.14.0</version.cassandra.datastax>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +47,32 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${version.lombok}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.datastax.oss.quarkus</groupId>
+                <artifactId>cassandra-quarkus-client</artifactId>
+                <version>${version.quarkus.cassandra}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-query-builder</artifactId>
+                <version>${version.cassandra.datastax}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-mapper-runtime</artifactId>
+                <version>${version.cassandra.datastax}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-mapper-processor</artifactId>
+                <version>${version.cassandra.datastax}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-metrics-microprofile</artifactId>
+                <version>${version.cassandra.datastax}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -119,6 +148,25 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.maven.plugin}</version>
+                    <configuration>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                        </compilerArgs>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>com.datastax.oss.quarkus</groupId>
+                                <artifactId>cassandra-quarkus-mapper-processor</artifactId>
+                                <version>${version.quarkus.cassandra}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
