@@ -17,20 +17,28 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
+        <!--    QUARKUS    -->
         <version.quarkus>2.7.4.Final</version.quarkus>
         <version.jackson>2.13.2</version.jackson>
         <version.smallrye.reactive>1.4.0</version.smallrye.reactive>
         <version.smallrye.vertx>2.19.0</version.smallrye.vertx>
 
+        <!--    SPRING WEBFLUX    -->
+        <version.spring.boot>2.6.5</version.spring.boot>
+        <version.openapi.webflux>1.6.6</version.openapi.webflux>
+
+        <!--    GENERAL   -->
         <version.jacoco>0.8.7</version.jacoco>
         <version.lombok>1.18.22</version.lombok>
+        <version.slf4j>1.7.36</version.slf4j>
+        <version.mapstruct>1.4.2.Final</version.mapstruct>
 
         <version.jandex>1.1.1</version.jandex>
         <version.maven.plugin>3.8.1</version.maven.plugin>
         <version.surefile.plugin>3.0.0-M5</version.surefile.plugin>
+        <version.org.sonarsource.scanner>3.6.0.1398</version.org.sonarsource.scanner>
 
-        <version.quarkus.cassandra>1.1.2</version.quarkus.cassandra>
-        <version.cassandra.datastax>4.14.0</version.cassandra.datastax>
+        <version.cassandra.core>3.6.0</version.cassandra.core>
     </properties>
 
     <dependencyManagement>
@@ -44,36 +52,50 @@
             </dependency>
 
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${version.spring.boot}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${version.lombok}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.datastax.oss.quarkus</groupId>
-                <artifactId>cassandra-quarkus-client</artifactId>
-                <version>${version.quarkus.cassandra}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
             </dependency>
+
             <dependency>
-                <groupId>com.datastax.oss</groupId>
-                <artifactId>java-driver-query-builder</artifactId>
-                <version>${version.cassandra.datastax}</version>
+                <groupId>com.datastax.cassandra</groupId>
+                <artifactId>cassandra-driver-core</artifactId>
+                <version>${version.cassandra.core}</version>
             </dependency>
+
             <dependency>
-                <groupId>com.datastax.oss</groupId>
-                <artifactId>java-driver-mapper-runtime</artifactId>
-                <version>${version.cassandra.datastax}</version>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-epoll</artifactId>
+                <version>4.1.22.Final</version>
+                <classifier>linux-x86_64</classifier>
             </dependency>
+
             <dependency>
-                <groupId>com.datastax.oss</groupId>
-                <artifactId>java-driver-mapper-processor</artifactId>
-                <version>${version.cassandra.datastax}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${version.openapi.webflux}</version>
             </dependency>
+
             <dependency>
-                <groupId>com.datastax.oss</groupId>
-                <artifactId>java-driver-metrics-microprofile</artifactId>
-                <version>${version.cassandra.datastax}</version>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${version.mapstruct}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -116,6 +138,11 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${version.surefile.plugin}</version>
@@ -123,6 +150,32 @@
                         <systemPropertyVariables>
                             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${version.lombok}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>0.2.0</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${version.mapstruct}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
 
@@ -151,27 +204,9 @@
                 </plugin>
 
                 <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${version.maven.plugin}</version>
-                    <configuration>
-                        <compilerArgs>
-                            <arg>-parameters</arg>
-                        </compilerArgs>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <annotationProcessorPaths>
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${version.lombok}</version>
-                            </path>
-                            <path>
-                                <groupId>com.datastax.oss.quarkus</groupId>
-                                <artifactId>cassandra-quarkus-mapper-processor</artifactId>
-                                <version>${version.quarkus.cassandra}</version>
-                            </path>
-                        </annotationProcessorPaths>
-                    </configuration>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${version.org.sonarsource.scanner}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
