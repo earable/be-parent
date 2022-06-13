@@ -39,6 +39,8 @@
         <version.org.sonarsource.scanner>3.6.0.1398</version.org.sonarsource.scanner>
 
         <version.cassandra.core>3.6.0</version.cassandra.core>
+
+        <version.jwt>0.9.1</version.jwt>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +104,11 @@
                 <version>${version.mapstruct}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${version.jwt}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
