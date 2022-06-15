@@ -32,6 +32,7 @@
         <version.lombok>1.18.22</version.lombok>
         <version.slf4j>1.7.36</version.slf4j>
         <version.mapstruct>1.4.2.Final</version.mapstruct>
+        <version.commons.lang3>3.12.0</version.commons.lang3>
 
         <version.jandex>1.1.1</version.jandex>
         <version.maven.plugin>3.8.1</version.maven.plugin>
@@ -108,6 +109,12 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>${version.jwt}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons.lang3}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
